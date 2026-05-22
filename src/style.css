@@ -1,0 +1,937 @@
+/* CSS Design System for Cosmic Portfolio */
+
+:root {
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Planet Glow Colors (HSL) */
+  --color-sun: 25, 100%, 50%;
+  --color-mercury: 200, 5%, 65%;
+  --color-venus: 38, 60%, 65%;
+  --color-earth: 210, 80%, 55%;
+  --color-mars: 0, 75%, 60%;
+  --color-jupiter: 43, 85%, 60%;
+  --color-saturn: 28, 85%, 60%;
+  --color-uranus: 195, 80%, 65%;
+  --color-neptune: 205, 80%, 50%;
+  --color-pluto: 24, 30%, 60%;
+  --color-milkyway: 270, 70%, 60%;
+
+  /* Dark Theme Palette */
+  --bg-deep-space: #030307;
+  --text-primary: #f0f2f5;
+  --text-secondary: #a0aec0;
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --bg-glass: rgba(10, 10, 20, 0.45);
+}
+
+/* Base resets & setups */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-deep-space);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  height: auto;
+  line-height: 1.6;
+}
+
+/* Hide default scrollbar for immersive cockpit feel, or style it sleekly */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(3, 3, 7, 0.9);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Core Layouts */
+#starfield-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.nebula-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(circle at 30% 20%, rgba(80, 20, 120, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 70%, rgba(20, 50, 150, 0.08) 0%, transparent 60%);
+  filter: blur(40px);
+}
+
+/* Viewport for active contents */
+.universe-viewport {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 3;
+  pointer-events: none; /* Let scroll events pass through to body */
+}
+
+/* Space HUD Header */
+.hud-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.5rem 2rem;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: auto;
+  font-family: var(--font-heading);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  background: linear-gradient(to bottom, rgba(3,3,7,0.8) 0%, transparent 100%);
+  backdrop-filter: blur(4px);
+}
+
+.hud-logo {
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.2em;
+  color: #fff;
+  cursor: pointer;
+}
+
+.hud-glitch {
+  position: relative;
+}
+
+.hud-status {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+}
+
+.status-indicator {
+  width: 6px;
+  height: 6px;
+  background-color: #00ff66;
+  border-radius: 50%;
+  margin-right: 8px;
+  display: inline-block;
+  box-shadow: 0 0 10px #00ff66;
+  animation: pulse-glow 2s infinite;
+}
+
+/* Space HUD Footer */
+.hud-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.2rem 2rem;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--text-secondary);
+  background: linear-gradient(to top, rgba(3,3,7,0.8) 0%, transparent 100%);
+}
+
+.scroll-prompt {
+  display: flex;
+  align-items: center;
+  animation: float-y 2s infinite ease-in-out;
+}
+
+.scroll-arrow {
+  margin-right: 8px;
+  font-weight: bold;
+}
+
+/* Right-side Orbit Navigator HUD */
+.hud-navigation {
+  position: fixed;
+  top: 50%;
+  right: 2.5rem;
+  transform: translateY(-50%);
+  z-index: 10;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+}
+
+.hud-line {
+  position: absolute;
+  right: 6px;
+  top: 0;
+  height: 100%;
+  width: 1px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.03) 100%);
+  z-index: 1;
+}
+
+.hud-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.hud-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  cursor: pointer;
+}
+
+.hud-label {
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  opacity: 0;
+  transform: translateX(10px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.hud-dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: rgba(3, 3, 7, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+}
+
+/* Hover behaviors */
+.hud-item:hover .hud-label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.hud-item:hover .hud-dot {
+  border-color: #fff;
+  transform: scale(1.2);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+}
+
+/* Active HUD states mapped dynamically */
+.hud-item.active .hud-label {
+  opacity: 1;
+  transform: translateX(0);
+  color: #fff;
+  font-weight: 700;
+}
+
+.hud-item.active .hud-dot {
+  background: #fff;
+  border-color: #fff;
+  transform: scale(1.3);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+}
+
+/* Celestial Bodies Rendering */
+.celestial-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.celestial-body {
+  position: absolute;
+  width: 50vmin;
+  height: 50vmin;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.01) translateZ(0); /* Start micro-sized for scroll zoom */
+  transform-origin: center center;
+}
+
+.celestial-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.8));
+  user-select: none;
+  pointer-events: none;
+  animation: slow-rotate 120s linear infinite;
+  /* mix-blend-mode: screen; Remove black background from images to merge with starfield */
+}
+
+/* Disable rotation for Saturn because of the rings orientation, and Sun has flares */
+.saturn-body .celestial-img,
+.sun-body .celestial-img {
+  animation: floating-sway 10s ease-in-out infinite;
+}
+
+.celestial-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(40px);
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+/* Custom glow values */
+.sun-glow { background: radial-gradient(circle, hsl(var(--color-sun), 0.6) 0%, transparent 70%); filter: blur(60px); }
+.mercury-glow { background: radial-gradient(circle, hsl(var(--color-mercury), 0.4) 0%, transparent 70%); }
+.venus-glow { background: radial-gradient(circle, hsl(var(--color-venus), 0.45) 0%, transparent 70%); }
+.earth-glow { background: radial-gradient(circle, hsl(var(--color-earth), 0.5) 0%, transparent 70%); }
+.mars-glow { background: radial-gradient(circle, hsl(var(--color-mars), 0.5) 0%, transparent 70%); }
+.jupiter-glow { background: radial-gradient(circle, hsl(var(--color-jupiter), 0.45) 0%, transparent 70%); }
+.saturn-glow { background: radial-gradient(circle, hsl(var(--color-saturn), 0.45) 0%, transparent 70%); width: 120%; height: 120%; }
+.uranus-glow { background: radial-gradient(circle, hsl(var(--color-uranus), 0.5) 0%, transparent 70%); }
+.neptune-glow { background: radial-gradient(circle, hsl(var(--color-neptune), 0.5) 0%, transparent 70%); }
+.pluto-glow { background: radial-gradient(circle, hsl(var(--color-pluto), 0.4) 0%, transparent 70%); }
+.milkyway-glow { background: radial-gradient(circle, hsl(var(--color-milkyway), 0.4) 0%, transparent 70%); width: 140%; height: 140%; filter: blur(80px); }
+
+/* Glassmorphic Portfolio Cards Layout */
+.cards-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.portfolio-section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 10%;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+/* Active panel activates pointer events */
+.portfolio-section.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Glassmorphism Card Style */
+.glass-card {
+  width: 480px;
+  max-width: 90vw;
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--border-glass);
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  transform: translateX(100px);
+  opacity: 0;
+  pointer-events: auto;
+}
+
+/* Glow Border matching planet colors */
+.glass-card[data-glow="sun"] { border-color: hsla(var(--color-sun), 0.2); box-shadow: 0 10px 40px -10px hsla(var(--color-sun), 0.25); }
+.glass-card[data-glow="mercury"] { border-color: hsla(var(--color-mercury), 0.2); box-shadow: 0 10px 40px -10px hsla(var(--color-mercury), 0.15); }
+.glass-card[data-glow="venus"] { border-color: hsla(var(--color-venus), 0.2); box-shadow: 0 10px 40px -10px hsla(var(--color-venus), 0.15); }
+.glass-card[data-glow="earth"] { border-color: hsla(var(--color-earth), 0.25); box-shadow: 0 10px 40px -10px hsla(var(--color-earth), 0.2); }
+.glass-card[data-glow="mars"] { border-color: hsla(var(--color-mars), 0.25); box-shadow: 0 10px 40px -10px hsla(var(--color-mars), 0.2); }
+.glass-card[data-glow="jupiter"] { border-color: hsla(var(--color-jupiter), 0.2); box-shadow: 0 10px 40px -10px hsla(var(--color-jupiter), 0.2); }
+.glass-card[data-glow="saturn"] { border-color: hsla(var(--color-saturn), 0.25); box-shadow: 0 10px 40px -10px hsla(var(--color-saturn), 0.2); }
+.glass-card[data-glow="uranus"] { border-color: hsla(var(--color-uranus), 0.25); box-shadow: 0 10px 40px -10px hsla(var(--color-uranus), 0.2); }
+.glass-card[data-glow="neptune"] { border-color: hsla(var(--color-neptune), 0.25); box-shadow: 0 10px 40px -10px hsla(var(--color-neptune), 0.2); }
+.glass-card[data-glow="pluto"] { border-color: hsla(var(--color-pluto), 0.25); box-shadow: 0 10px 40px -10px hsla(var(--color-pluto), 0.2); }
+.glass-card[data-glow="milkyway"] { border-color: hsla(var(--color-milkyway), 0.3); box-shadow: 0 10px 45px -10px hsla(var(--color-milkyway), 0.25); }
+
+/* Welcome Section Card */
+.intro-card {
+  max-width: 650px;
+  transform: translateY(50px);
+  opacity: 0;
+  pointer-events: auto;
+}
+
+.intro-card .badge {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.4rem 1rem;
+  border-radius: 30px;
+  margin-bottom: 1.5rem;
+  color: var(--text-secondary);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.02);
+}
+
+.main-title {
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  background: linear-gradient(to right, #fff 40%, rgba(255, 255, 255, 0.5));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  border-left: 2px solid #fff;
+  padding-left: 12px;
+}
+
+.intro-desc {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+}
+
+/* Card Elements */
+.card-number {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.glass-card h2 {
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #fff;
+  margin-bottom: 0.3rem;
+  text-transform: uppercase;
+}
+
+.card-meta {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 1.2rem;
+  text-transform: uppercase;
+}
+
+.card-line {
+  height: 2px;
+  width: 40px;
+  background-color: #fff;
+  margin-bottom: 1.5rem;
+}
+
+.card-text {
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.card-text strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+.code-link {
+  font-family: monospace;
+  background-color: rgba(255,255,255,0.06);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.08);
+  font-size: 0.8rem;
+  color: #fff;
+}
+
+/* Bullet List details */
+.bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.bullet-list li {
+  position: relative;
+  padding-left: 1.2rem;
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: var(--text-secondary);
+}
+
+.bullet-list li strong {
+  color: #fff;
+}
+
+.bullet-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55rem;
+  width: 5px;
+  height: 5px;
+  background-color: #fff;
+  border-radius: 50%;
+}
+
+/* Custom interactive button */
+.action-btn {
+  background: #fff;
+  color: #000;
+  border: none;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15);
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.28em;
+}
+
+/* Metrics Dashboard grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.metric-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.metric-num {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.metric-lbl {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Skills Toolkit styling */
+.skills-section {
+  margin-bottom: 1.2rem;
+}
+
+.skills-section h3 {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.12em;
+  margin-bottom: 0.6rem;
+  text-transform: uppercase;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.3rem 0.7rem;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+}
+
+.tag:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.software-tag {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.code-tag {
+  font-family: monospace;
+}
+
+/* Education styling */
+.edu-item {
+  background: rgba(255, 255, 255, 0.02);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 0 0.5rem 1rem;
+}
+
+.edu-header {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  color: #fff;
+  margin-bottom: 0.2rem;
+}
+
+.edu-date, .edu-vendor {
+  font-size: 0.7rem;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.1rem 0.5rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  font-weight: 500;
+}
+
+.edu-vendor {
+  border-color: rgba(242, 201, 76, 0.2);
+  color: #f2c94c;
+  background: rgba(242, 201, 76, 0.05);
+}
+
+.edu-sub {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+}
+
+.edu-desc {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 300;
+}
+
+/* Interests dashboard */
+.interests-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.interest-pill {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.7rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 300;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.interest-pill:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateX(5px);
+}
+
+/* Contact Details */
+.contact-card {
+  width: 520px;
+}
+
+.contact-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.contact-icon {
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.contact-val {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+}
+
+.contact-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  color: #fff;
+}
+
+.social-links-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.8rem;
+  margin-bottom: 1.8rem;
+}
+
+.social-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-family: var(--font-heading);
+  transition: all 0.3s ease;
+}
+
+.social-item span:first-child {
+  font-size: 0.75rem;
+  color: #fff;
+  font-weight: 600;
+}
+
+.social-item .social-user {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+}
+
+.social-item:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.12);
+  transform: translateY(-2px);
+}
+
+/* Contact form inside the cosmic HUD card */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.contact-form input, .contact-form textarea {
+  background: rgba(3, 3, 7, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.contact-form input:focus, .contact-form textarea:focus {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(3, 3, 7, 0.7);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+}
+
+.submit-btn {
+  background: #fff;
+  color: #000;
+  border: none;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  padding: 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+}
+
+.form-status-msg {
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+  text-align: center;
+  font-family: var(--font-heading);
+  letter-spacing: 0.05em;
+}
+
+/* Animations */
+@keyframes slow-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes floating-sway {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(4px, -8px) rotate(-1deg); }
+  50% { transform: translate(-3px, -4px) rotate(1deg); }
+  75% { transform: translate(-6px, -10px) rotate(-0.5deg); }
+}
+
+/* Scroll Spacer Utilities */
+.scroll-spacer-container {
+  position: relative;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.scroll-spacer {
+  height: 120vh; /* Height dictates scrolling duration per section */
+  width: 100%;
+}
+
+#space-0 { height: 100vh; } /* Title screen needs standard space */
+#space-10 { height: 120vh; }
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .portfolio-section {
+    padding: 0 5%;
+    justify-content: center;
+  }
+  .glass-card {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .hud-navigation {
+    right: 1rem;
+  }
+  .hud-label {
+    display: none; /* Hide labels on tablet/mobile to avoid overlapping card */
+  }
+}
+
+@media (max-width: 768px) {
+  .main-title {
+    font-size: 2.2rem;
+  }
+  .subtitle {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .intro-card {
+    text-align: center;
+    padding: 0 1rem;
+  }
+  .subtitle {
+    border-left: none;
+    padding-left: 0;
+  }
+  .hud-header {
+    padding: 1rem;
+  }
+  .hud-footer {
+    display: none; /* Hide coordinates on small screens to save space */
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  .glass-card {
+    padding: 1.5rem;
+  }
+  .celestial-body {
+    width: 65vmin;
+    height: 65vmin;
+  }
+}
+

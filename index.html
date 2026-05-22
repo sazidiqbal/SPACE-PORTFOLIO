@@ -1,0 +1,494 @@
+npm <!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sazzzid</title>
+    <meta name="description" content="Embark on a space travel journey through the portfolio of Sazid Iqbal Hussain, a Product Designer & Front-End Developer specializing in UX Research, Design Systems, and React." />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Full-screen starfield background -->
+    <canvas id="starfield-canvas"></canvas>
+
+    <!-- Ambient Cosmic Dust / Nebula overlay -->
+    <div class="nebula-overlay"></div>
+
+    <!-- Right-side HUD navigation -->
+    <nav class="hud-navigation" id="hud-nav" aria-label="Solar System Navigation">
+      <div class="hud-line"></div>
+      <ul class="hud-list">
+        <li class="hud-item active" data-index="0">
+          <span class="hud-label">Launch</span>
+          <button class="hud-dot" aria-label="Go to Launch"></button>
+        </li>
+        <li class="hud-item" data-index="1">
+          <span class="hud-label">The Sun</span>
+          <button class="hud-dot" aria-label="Go to The Sun"></button>
+        </li>
+        <li class="hud-item" data-index="2">
+          <span class="hud-label">Mercury</span>
+          <button class="hud-dot" aria-label="Go to Mercury"></button>
+        </li>
+        <li class="hud-item" data-index="3">
+          <span class="hud-label">Venus</span>
+          <button class="hud-dot" aria-label="Go to Venus"></button>
+        </li>
+        <li class="hud-item" data-index="4">
+          <span class="hud-label">Earth</span>
+          <button class="hud-dot" aria-label="Go to Earth"></button>
+        </li>
+        <li class="hud-item" data-index="5">
+          <span class="hud-label">Mars</span>
+          <button class="hud-dot" aria-label="Go to Mars"></button>
+        </li>
+        <li class="hud-item" data-index="6">
+          <span class="hud-label">Jupiter</span>
+          <button class="hud-dot" aria-label="Go to Jupiter"></button>
+        </li>
+        <li class="hud-item" data-index="7">
+          <span class="hud-label">Saturn</span>
+          <button class="hud-dot" aria-label="Go to Saturn"></button>
+        </li>
+        <li class="hud-item" data-index="8">
+          <span class="hud-label">Uranus</span>
+          <button class="hud-dot" aria-label="Go to Uranus"></button>
+        </li>
+        <li class="hud-item" data-index="9">
+          <span class="hud-label">Neptune</span>
+          <button class="hud-dot" aria-label="Go to Neptune"></button>
+        </li>
+        <li class="hud-item" data-index="10">
+          <span class="hud-label">Pluto</span>
+          <button class="hud-dot" aria-label="Go to Pluto"></button>
+        </li>
+        <li class="hud-item" data-index="11">
+          <span class="hud-label">Milky Way</span>
+          <button class="hud-dot" aria-label="Go to Milky Way"></button>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Top Status HUD -->
+    <header class="hud-header">
+      <div class="hud-logo">
+        <span class="hud-glitch" data-text="sazzzid">SAZZZID</span>
+      </div>
+      <div class="hud-status">
+        <span class="status-indicator"></span> ONLINE | OP: STABLE
+      </div>
+    </header>
+
+    <!-- Bottom Instructions HUD -->
+    <div class="hud-footer">
+      <div class="scroll-prompt">
+        <span class="scroll-arrow">↓</span> SCROLL OR DRAG TO NAVIGATE UNIVERSE
+      </div>
+      <div class="coordinate-readout" id="coordinate-hud">
+        LAT: 0.000° | VEL: 0.000 AU/s
+      </div>
+    </div>
+
+    <!-- Interactive Space Container (fixed viewport) -->
+    <div class="universe-viewport">
+      <!-- Container for celestial bodies -->
+      <div class="celestial-container" id="celestial-container">
+        <!-- Sun -->
+        <div class="celestial-body sun-body" id="body-sun">
+          <img src="/assets/sun.png" alt="The Sun - Core Skills" class="celestial-img" />
+          <div class="celestial-glow sun-glow"></div>
+        </div>
+        <!-- Mercury -->
+        <div class="celestial-body mercury-body" id="body-mercury">
+          <img src="/assets/mercury.png" alt="Mercury - Pixentech" class="celestial-img" />
+          <div class="celestial-glow mercury-glow"></div>
+        </div>
+        <!-- Venus -->
+        <div class="celestial-body venus-body" id="body-venus">
+          <img src="/assets/venus.png" alt="Venus - Encryptiq" class="celestial-img" />
+          <div class="celestial-glow venus-glow"></div>
+        </div>
+        <!-- Earth -->
+        <div class="celestial-body earth-body" id="body-earth">
+          <img src="/assets/earth.png" alt="Earth - Cleanstrap Freelance" class="celestial-img" />
+          <div class="celestial-glow earth-glow"></div>
+        </div>
+        <!-- Mars -->
+        <div class="celestial-body mars-body" id="body-mars">
+          <img src="/assets/mars.png" alt="Mars - Core Skills" class="celestial-img" />
+          <div class="celestial-glow mars-glow"></div>
+        </div>
+        <!-- Jupiter -->
+        <div class="celestial-body jupiter-body" id="body-jupiter">
+          <img src="/assets/jupiter.png" alt="Jupiter - Hey Neighbor Project" class="celestial-img" />
+          <div class="celestial-glow jupiter-glow"></div>
+        </div>
+        <!-- Saturn -->
+        <div class="celestial-body saturn-body" id="body-saturn">
+
+  <img
+    src="/assets/saturn.png"
+    alt="Saturn - Pin Pets"
+    class="celestial-img saturn-real-img"
+  />
+
+  <div class="celestial-glow saturn-glow"></div>
+
+</div>
+        <!-- Uranus -->
+        <!-- Uranus -->
+<div class="celestial-body uranus-body" id="body-uranus">
+
+  <img
+    src="/assets/uranus.png"
+    alt="Uranus - Academic & Credentials"
+    class="celestial-img uranus-real-img"
+  />
+
+  <div class="celestial-glow uranus-glow"></div>
+
+</div>
+        <!-- Neptune -->
+        <div class="celestial-body neptune-body" id="body-neptune">
+
+  <img
+    src="/assets/neptune.png"
+    alt="Neptune - Life Beyond Work"
+    class="celestial-img neptune-real-img"
+  />
+
+  <div class="celestial-glow neptune-glow"></div>
+
+</div>
+        <!-- Pluto -->
+        <div class="celestial-body pluto-body" id="body-pluto">
+
+  <img
+    src="/assets/pluto.png"
+    alt="Pluto - The Underdog"
+    class="celestial-img pluto-real-img"
+  />
+
+  <div class="celestial-glow pluto-glow"></div>
+
+</div>
+        <!-- Milky Way Galaxy -->
+<div class="celestial-body milkyway-body" id="body-milkyway">
+
+  <img
+    src="/assets/milkyway.png"
+    alt="Milky Way - Contact"
+    class="celestial-img milkyway-real-img"
+  />
+
+  <div class="celestial-glow milkyway-glow"></div>
+
+ </div>
+  </div>
+
+  <!-- Container for Glassmorphic Portfolio Cards -->
+  <div class="cards-container" id="cards-container">
+        <!-- Section 0: Hero / Launch -->
+        <section class="portfolio-section active" id="sec-launch">
+          <div class="intro-card">
+            <div class="badge">MISSION RUNTIME: 2020 - ACTIVE</div>
+            <h1 class="main-title">SAZID IQBAL HUSSAIN</h1>
+            <p class="subtitle">Product Designer &amp; Front-End Developer</p>
+            <p class="intro-desc">Crafting digital interfaces that merge human empathy, robust UX research, and clean front-end code. Embark on a scrollable expedition through my solar system of work.</p>
+            <div class="action-btn-wrapper">
+              <button class="action-btn" id="start-journey-btn">INITIATE TRAVERSAL</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 1: The Sun (About Me / Core Profile) -->
+        <section class="portfolio-section" id="sec-sun">
+          <div class="glass-card planet-card" data-glow="sun">
+            <span class="card-number">01 // THE STAR</span>
+            <h2>THE CORE PROFILE</h2>
+            <div class="card-line"></div>
+            <p class="card-text">
+              I am a <strong>Product Designer</strong> with a foundation in Information Technology (B.Tech). This background enables me to act as the perfect bridge between creative user experience design and solid front-end engineering.
+            </p>
+            <p class="card-text">
+              By placing human needs at the absolute core of the design process, I build responsive, highly functional interfaces that are not just beautiful, but result-oriented and highly scalable.
+            </p>
+            <div class="metrics-grid">
+              <div class="metric-item">
+                <span class="metric-num">3+</span>
+                <span class="metric-lbl">Years Experience</span>
+              </div>
+              <div class="metric-item">
+                <span class="metric-num">100%</span>
+                <span class="metric-lbl">User-Centered Focus</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 2: Mercury (Pixentech) -->
+        <section class="portfolio-section" id="sec-mercury">
+          <div class="glass-card planet-card" data-glow="mercury">
+            <span class="card-number">02 // ORBIT 1</span>
+            <h2>PIXENTECH PVT LTD</h2>
+            <div class="card-meta">Product Designer | Hyderabad (May 2024 - Oct 2025)</div>
+            <div class="card-line"></div>
+            <ul class="bullet-list">
+              <li>Collaborated with front-end teams to engineer interactive game menus and in-game UI, boosting <strong>player retention by 20%</strong>.</li>
+              <li>Conducted usability testing and player research to iterate game UI/UX prototypes, yielding a <strong>15% drop-off reduction</strong>.</li>
+              <li>Adapted fluidly across cross-functional design roles, increasing design pipeline efficiency by <strong>20%</strong>.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Section 3: Venus (Encryptiq Innovation) -->
+        <section class="portfolio-section" id="sec-venus">
+          <div class="glass-card planet-card" data-glow="venus">
+            <span class="card-number">03 // ORBIT 2</span>
+            <h2>ENCRYPTIQ INNOVATION</h2>
+            <div class="card-meta">Product Designer | Guwahati (Sept 2022 - Apr 2024)</div>
+            <div class="card-line"></div>
+            <ul class="bullet-list">
+              <li>Designed and built a responsive web footprint for clients such as <strong>SRD Group</strong>, improving accessibility and boosting <strong>user engagement by 30%</strong>.</li>
+              <li>Successfully integrated a mini online cake ordering system (<span class="code-link">repose.co</span>) alongside interactive menus, enhancing customer convenience and driving online sales up by <strong>25%</strong>.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Section 4: Earth (Cleanstrap Freelance) -->
+        <section class="portfolio-section" id="sec-earth">
+          <div class="glass-card planet-card" data-glow="earth">
+            <span class="card-number">04 // ORBIT 3</span>
+            <h2>CLEANSTRAP</h2>
+            <div class="card-meta">Freelance Designer &amp; Developer (Feb 2020 - Dec 2021)</div>
+            <div class="card-line"></div>
+            <ul class="bullet-list">
+              <li>Worked dynamically across logo design, UX research, and front-end development, increasing overall design versatility by <strong>60%</strong>.</li>
+              <li>Architected and launched a custom Norwegian-to-English translation platform utilizing linguistic algorithms, translating <strong>2000+ real-time sentences</strong> to positive user feedback.</li>
+              <li>Maintained web solutions for architectural firms, elevating digital brand authority.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Section 5: Mars (Skills & Toolkit) -->
+        <section class="portfolio-section" id="sec-mars">
+          <div class="glass-card planet-card" data-glow="mars">
+            <span class="card-number">05 // ORBIT 4</span>
+            <h2>TECHNICAL TOOLKIT</h2>
+            <div class="card-line"></div>
+            
+            <div class="skills-section">
+              <h3>USER EXPERIENCE</h3>
+              <div class="tags-container">
+                <span class="tag">UX Research</span>
+                <span class="tag">Responsive Design</span>
+                <span class="tag">Design Systems</span>
+                <span class="tag">User Flows</span>
+                <span class="tag">Wireframing</span>
+                <span class="tag">Hi-Fi Prototyping</span>
+                <span class="tag">Usability Testing</span>
+              </div>
+            </div>
+
+            <div class="skills-section">
+              <h3>DESIGN SOFTWARE</h3>
+              <div class="tags-container">
+                <span class="tag software-tag">Figma</span>
+                <span class="tag software-tag">Adobe XD</span>
+                <span class="tag software-tag">Miro</span>
+                <span class="tag software-tag">Photoshop</span>
+                <span class="tag software-tag">Illustrator</span>
+                <span class="tag software-tag">Framer</span>
+                <span class="tag software-tag">Sketch</span>
+              </div>
+            </div>
+
+            <div class="skills-section">
+              <h3>PROGRAMMING &amp; FRAMEWORKS</h3>
+              <div class="tags-container">
+                <span class="tag code-tag">HTML5</span>
+                <span class="tag code-tag">CSS3 / SCSS</span>
+                <span class="tag code-tag">JavaScript (ES6+)</span>
+                <span class="tag code-tag">React.js</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 6: Jupiter (Hey Neighbor Project) -->
+        <section class="portfolio-section" id="sec-jupiter">
+          <div class="glass-card planet-card" data-glow="jupiter">
+            <span class="card-number">06 // ORBIT 5</span>
+            <h2>HEY NEIGHBOR</h2>
+            <div class="card-meta">UX Design &amp; Research Case Study</div>
+            <div class="card-line"></div>
+            <p class="card-text">
+              Hey Neighbor is a community support ecosystem designed to foster mutual assistance, resource sharing, and environmental care within local neighborhoods.
+            </p>
+            <ul class="bullet-list">
+              <li><strong>Research:</strong> Performed qualitative interviews and community surveys to uncover local pain points around isolation and civic neglect.</li>
+              <li><strong>Impact:</strong> Achieved positive behavioral shifts among pilot users, creating a tangible sense of stewardship and neighborhood trust.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Section 7: Saturn (Pin Pets Project) -->
+        <section class="portfolio-section" id="sec-saturn">
+          <div class="glass-card planet-card" data-glow="saturn">
+            <span class="card-number">07 // ORBIT 6</span>
+            <h2>PIN PETS</h2>
+            <div class="card-meta">UX Design &amp; Research Case Study</div>
+            <div class="card-line"></div>
+            <p class="card-text">
+              Pin Pets is a user-centered mobile and web application aimed at accelerating the rescue, medical logging, and adoption process for stray and abandoned animals.
+            </p>
+            <ul class="bullet-list">
+              <li><strong>User Journey:</strong> Streamlined the documentation and application process for rescues.</li>
+              <li><strong>Outcome:</strong> User testing validated a <strong>30% increase in prospective adoption rates</strong> due to highly intuitive flows.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Section 8: Uranus (Education & Background) -->
+        <section class="portfolio-section" id="sec-uranus">
+          <div class="glass-card planet-card" data-glow="uranus">
+            <span class="card-number">08 // ORBIT 7</span>
+            <h2>ACADEMIC &amp; CREDENTIALS</h2>
+            <div class="card-line"></div>
+            
+            <div class="edu-item">
+              <div class="edu-header">
+                <strong>B.Tech in Information Technology</strong>
+                <span class="edu-date">Aug 2022</span>
+              </div>
+              <div class="edu-sub">North-Eastern Hill University | Shillong, Meghalaya</div>
+            </div>
+            <p class="card-text" style="margin-top: 1.2rem;">
+              My formal engineering foundation in Shillong, Meghalaya helps me synthesize layout programming, design patterns, and systemic visual planning into seamless developer-designer workflows.
+            </p>
+          </div>
+        </section>
+
+        <!-- Section 9: Neptune (Interests & Activities) -->
+        <section class="portfolio-section" id="sec-neptune">
+          <div class="glass-card planet-card" data-glow="neptune">
+            <span class="card-number">09 // ORBIT 8</span>
+            <h2>LIFE BEYOND WORK</h2>
+            <div class="card-line"></div>
+            <p class="card-text">When I am not crafting interfaces or programming front-end layouts, I explore the world through these dimensions:</p>
+            
+            <div class="interests-grid">
+              <div class="interest-pill">📸 Capturing Moments</div>
+              <div class="interest-pill">🌲 Outdoor Activities</div>
+              <div class="interest-pill">🛠️ DIY Projects</div>
+              <div class="interest-pill">✈️ Travel &amp; Exploration</div>
+              <div class="interest-pill">🎵 Music Composition</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 10: Pluto (Certifications & Underdog Spirit) -->
+        <section class="portfolio-section" id="sec-pluto">
+          <div class="glass-card planet-card" data-glow="pluto">
+            <span class="card-number">10 // THE UNDERDOG</span>
+            <h2>PLUTO: THE SAVAGE UNDERDOG</h2>
+            <div class="card-meta">STILL A PLANET IN OUR HEARTS</div>
+            <div class="card-line"></div>
+            <p class="card-text" style="color: #f2c94c; font-style: italic; font-weight: 600; font-size: 0.95rem; border-left: 2px solid #f2c94c; padding-left: 10px;">
+              "Still a planet in our hearts. The savage underdog that refuses to be sidelined. A testament to independent resilience."
+            </p>
+            <p class="card-text" style="margin-top: 1rem;">
+              Just like Pluto's eccentric orbit, I push boundaries and challenge standard conventions. My certifications embody this rebel focus:
+            </p>
+            
+            <div class="edu-item" style="margin-top: 1.2rem;">
+              <div class="edu-header">
+                <strong>Google UX Design Professional Certificate</strong>
+                <span class="edu-vendor">GOOGLE</span>
+              </div>
+              <p class="edu-desc">Comprehensive mastery in wireframing, high-fidelity interactive prototyping, and user-centered design testing.</p>
+            </div>
+
+            <div class="edu-item" style="margin-top: 1.2rem;">
+              <div class="edu-header">
+                <strong>Human-Centered Design Certificate</strong>
+                <span class="edu-vendor">UC SAN DIEGO</span>
+              </div>
+              <p class="edu-desc">Applied empathetic design frameworks to elevate user satisfaction indices by 20% and reduce interaction errors by 15%.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 11: Milky Way (Contact) -->
+        <section class="portfolio-section" id="sec-milkyway">
+          <div class="glass-card planet-card contact-card" data-glow="milkyway">
+            <span class="card-number">11 // OUTER BOUNDS</span>
+            <h2>STRIKE COLLABORATION</h2>
+            <div class="card-line"></div>
+            <p class="card-text">Have an interesting project or want to chat about user-centered design? Reach out across coordinates:</p>
+            
+            <div class="contact-methods">
+              <a href="mailto:sazidiqbalh@gmail.com" class="contact-link glow-hover">
+                <span class="contact-icon">✉</span>
+                <span class="contact-val">sazidiqbalh@gmail.com</span>
+              </a>
+              <a href="tel:+917086301406" class="contact-link glow-hover">
+                <span class="contact-icon">☎</span>
+                <span class="contact-val">+91 70863 01406</span>
+              </a>
+            </div>
+
+            <div class="social-links-grid">
+              <a href="https://behance.net/sazzzid" target="_blank" rel="noopener" class="social-item hover-effect">
+                <span>Behance</span>
+                <span class="social-user">sazzzid</span>
+              </a>
+              <a href="https://linkedin.com/in/sazzzid" target="_blank" rel="noopener" class="social-item hover-effect">
+                <span>LinkedIn</span>
+                <span class="social-user">sazzzid</span>
+              </a>
+              <a href="#" target="_blank" rel="noopener" class="social-item hover-effect">
+                <span>Portfolio</span>
+                <span class="social-user">sazzzid</span>
+              </a>
+            </div>
+
+            <!-- Sleek inline contact form -->
+            <form class="contact-form" id="space-contact-form">
+              <div class="form-row">
+                <input type="text" placeholder="YOUR NAME" required id="form-name" />
+                <input type="email" placeholder="EMAIL ADDRESS" required id="form-email" />
+              </div>
+              <textarea placeholder="MISSION DESCRIPTION / MESSAGE" rows="3" required id="form-message"></textarea>
+              <button type="submit" class="submit-btn">TRANSMIT MESSAGE</button>
+            </form>
+            <div id="form-status" class="form-status-msg"></div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Dummy Scroll Container to create scrollable space (11 full pages of scrolling) -->
+    <div class="scroll-spacer-container">
+      <div class="scroll-spacer" id="space-0"></div>
+      <div class="scroll-spacer" id="space-1"></div>
+      <div class="scroll-spacer" id="space-2"></div>
+      <div class="scroll-spacer" id="space-3"></div>
+      <div class="scroll-spacer" id="space-4"></div>
+      <div class="scroll-spacer" id="space-5"></div>
+      <div class="scroll-spacer" id="space-6"></div>
+      <div class="scroll-spacer" id="space-7"></div>
+      <div class="scroll-spacer" id="space-8"></div>
+      <div class="scroll-spacer" id="space-9"></div>
+      <div class="scroll-spacer" id="space-10"></div>
+      <div class="scroll-spacer" id="space-11"></div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

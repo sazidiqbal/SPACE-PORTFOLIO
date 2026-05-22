@@ -97,7 +97,7 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 1.5rem 2rem;
+  padding: 1.5rem 1rem;
   z-index: 10;
   display: flex;
   justify-content: space-between;
@@ -296,7 +296,7 @@ body {
   user-select: none;
   pointer-events: none;
   animation: slow-rotate 120s linear infinite;
-  /* mix-blend-mode: screen; Remove black background from images to merge with starfield */
+  mix-blend-mode: screen; /* Remove black background from images to merge with starfield */
 }
 
 /* Disable rotation for Saturn because of the rings orientation, and Sun has flares */
@@ -934,4 +934,3 @@ body {
     height: 65vmin;
   }
 }
-

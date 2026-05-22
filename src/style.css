@@ -369,13 +369,13 @@ body {
   width: 480px;
   max-width: 90vw;
   background: var(--bg-glass);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid var(--border-glass);
   border-radius: 16px;
   padding: 2.5rem;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-  transform: translateX(100px);
+  transform: translateX(80px);
   opacity: 0;
   pointer-events: auto;
 }
